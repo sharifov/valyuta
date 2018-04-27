@@ -9,14 +9,25 @@ $('.cur-search input').keyup(function(){
 });
 
 $('.sidebar .currency').click(function(){
-  _this = $(this)
-  _this.css({position:'absolute', left: _this.position().left, 'top': _this.position().top});
-  setTimeout(function(){
-    _this.addClass('fly');
+  _this = $(this);
+  if(!_this.hasClass('active')){
+    _this.css({position:'absolute', left: _this.position().left, 'top': _this.position().top});
     setTimeout(function(){
-      _this.removeAttr('style');
-      _this.prependTo('.currencies');
-    }, 800);
-  }, 800);
-  //$(this).addClass('active');
+      _this.addClass('fly');
+      setTimeout(function(){
+        _this.removeAttr('style').prependTo('.currencies').removeClass('fly').addClass('active');
+      }, 800);
+    }, 300);
+  }else{
+    _nextpos = $('.currency.active:last').position();
+    _this.css({position:'absolute', left: _this.position().left, 'top': _this.position().top});
+      _this.removeClass('active');
+      setTimeout(function(){
+        _this.css({left: _nextpos.left, 'top': _nextpos.top});
+        setTimeout(function(){
+            _this.removeAttr('style').insertAfter('.currency.active:last');
+        }, 800);
+      }, 300);
+  }
+  
 });
