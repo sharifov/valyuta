@@ -1,10 +1,23 @@
 <?php
 
+$_option=[
+	[
+		'disabled'=>'disabled="disabled"',
+		'amount'=>0,
+		'class'=>''
+	],
+	[
+		'disabled'=>'',
+		'amount'=>100,
+		'class'=>'active'
+	]
+];
+
 //$xml = simplexml_load_file('http://www.cbr.ru/scripts/XML_daily.asp?date_req=05/11/2017', null, LIBXML_NOCDATA );
 $xml = simplexml_load_file('http://www.floatrates.com/daily/usd.xml', null, LIBXML_NOCDATA );
 
 $valutes = [];
-$firsts = [ ['code'=>'usd', 'name'=>'United States Dollar', 'value'=>1] ];
+$firsts = [ ['code'=>'usd', 'name'=>'United States Dollar', 'value'=>1, 'is_active'=> true] ];
 $seconds =[];
 
 foreach ($xml->item as $val) {
@@ -15,11 +28,14 @@ foreach ($xml->item as $val) {
 	$data = [
 		'code'  => $code,
 		'name'  => str_replace('convertible ', '', (string)$val->targetName),
-		'value' => (float)$val->exchangeRate
+		'value' => (float)$val->exchangeRate,
+		'is_active'=> false
 	];
 
-	if(in_array($code, ['rub', 'eur']))
-		$firsts[] = $data;
+	if(in_array($code, ['rub', 'eur'])){
+			$data['is_active'] = true;
+			$firsts[] = $data;
+	}
 	elseif(in_array($code, ['ils', 'azn', 'try', 'uah', 'gel', 'byn']))
 		$seconds[] = $data;
 	else
@@ -77,12 +93,13 @@ $valutes = array_merge($firsts, $seconds, $valutes);
 
                     <div class="currencies">
 	                    	<?foreach($valutes as $k=>$v):?>
-			                    <div class="currency <?if(in_array($k, [0,1,2])):?>active<?endif?>">
+			                    <div class="currency <?=$_option[$v['is_active']]['class']?>">
 				                    	<img src="/flags/<?=$v['code']?>.png">
 				                   		<span><?=strtoupper($v['code'])?></span>
 				                   		<span><?=$v['name']?></span>
 															<div class="hide"><?=strtolower($v['code'].' '.$v['name'])?></div>
-															<input type="text" name="" value="200">
+															<input type="text" name="amount" <?=$_option[$v['is_active']]['disabled']?> value="<?=$_option[$v['is_active']]['amount']?>">
+															<img class="to" src="/flags/usd.png">
 			                    </div>
 		                    <?endforeach?>
                     </div>

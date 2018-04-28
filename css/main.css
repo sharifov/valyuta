@@ -2010,6 +2010,10 @@ a:hover, a:active, a:focus {
 
 /*----------------------------------------------JEWISH--------------------------------------------------------------------*/
 
+[disabled]{
+    cursor: not-allowed;
+}
+
 .menu-trigger{
   background: #fff;
 }
@@ -2073,6 +2077,13 @@ a:hover, a:active, a:focus {
       clear:left;
       float:left;
       width: 100%;
+    }
+
+    .sidebar .currency img.to{
+      margin-top: 10px;
+      float: left;
+      margin-left: 50%;
+      transform: translateX(-50%);
     }
 
     .sidebar .currency img + span{
