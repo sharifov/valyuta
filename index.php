@@ -1,5 +1,10 @@
 <?php
 
+function getValue($v, $a){
+	if(!$a) return $a;
+	return round($a*$v,2);
+}
+
 $_option=[
 	[
 		'disabled'=>'disabled="disabled"',
@@ -86,31 +91,24 @@ $valutes = array_merge($firsts, $seconds, $valutes);
                         <span class="bar"></span>
                     </span>
 
-
-					<div class="cur-search">
-						<input type="text" placeholder="Search"/>
-					</div>
+										<div class="cur-search">
+											<input type="text" placeholder="Search"/>
+										</div>
 
                     <div class="currencies">
 	                    	<?foreach($valutes as $k=>$v):?>
-			                    <div class="currency <?=$_option[$v['is_active']]['class']?>">
+			                    <div class="currency <?if($k==0):?>convert<?endif?> <?=$_option[$v['is_active']]['class']?>" data-currency="<?=$v['value']?>">
 				                    	<img src="/flags/<?=$v['code']?>.png">
 				                   		<span><?=strtoupper($v['code'])?></span>
 				                   		<span><?=$v['name']?></span>
 															<div class="hide"><?=strtolower($v['code'].' '.$v['name'])?></div>
-															<input type="text" name="amount" <?=$_option[$v['is_active']]['disabled']?> value="<?=$_option[$v['is_active']]['amount']?>">
+															<input type="text" name="amount" <?=$_option[$v['is_active']]['disabled']?> value="<?=getValue($v['value'], $_option[$v['is_active']]['amount'])?>">
 															<img class="to" src="/flags/usd.png">
 			                    </div>
 		                    <?endforeach?>
                     </div>
-                </section><!-- end sidebar -->
 
-                <!-- <section class="col-lg-7 col-12 ml-auto main-content">
-										<div class="convert-block">
-												<img src="/flags/azn.png" alt=""/>
-												<span>Azerbaijan Manat</span>
-										</div>
-                </section> -->
+                </section>
 
             </div> <!--/row -->
 
