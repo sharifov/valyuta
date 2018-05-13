@@ -2,6 +2,33 @@ getValue = function(a, v, t){
     return (a*(v/t)).toFixed(2);
 };
 
+getCookie = function(k) {
+    let n = k + "=";
+    let ca = document.cookie.split(';');
+    for(i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(n) == 0) {
+            return c.substring(n.length, c.length);
+        }
+    }
+    return "";
+};
+
+setCookie = function(k, v, d=1) {
+    let d = new Date(), g=getCookie(k);
+    v=!g?[v]:g.push(v);
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let e = "expires="+ d.toUTCString();
+    document.cookie = k + "=" + v + ";" + e + ";path=/";
+};
+
+deleteCookie = function(k, v) {
+    setCookie(k, v);
+};
+
 $('.cur-search input').keyup(function(){
   _v = $(this).val().trim();
   if(_v.length){
@@ -20,10 +47,14 @@ $('.sidebar .currency').click(function(e){
     _this.css({position:'absolute', left: _this.position().left, 'top': _this.position().top});
     setTimeout(function(){
       _this.addClass('fly');
+      setCookie('sess', );
       setTimeout(function(){
-        _this.removeAttr('style').prependTo('.currencies').removeClass('fly').addClass('active').find('input').removeAttr('disabled');
+        _this.removeAttr('style').insertAfter('.sidebar .currency.convert').removeClass('fly').addClass('active').find('input').removeAttr('disabled');
       }, 800);
+      let _cv = $('.sidebar .currency.convert');
+      _this.find('input').val(getValue(_cv.find('input').val(), _this.data('currency'), _cv.data('currency')));
       $('.sidebar').animate({scrollTop:0}, 800);
+      _cv.find('input').trigger('focus');
     }, 300);
   }else{
       _nextpos = $('.currency.active:last').position();

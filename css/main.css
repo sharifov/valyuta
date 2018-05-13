@@ -2069,7 +2069,7 @@ a:hover, a:active, a:focus {
 
   .sidebar .currency.fly{
     top:0 !important;
-    left:0 !important;
+    left:32.12% !important;
   }
 
     .sidebar .currency:hover, .sidebar .currency.active{
