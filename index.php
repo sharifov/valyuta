@@ -19,7 +19,7 @@ $_option=[
 ];
 
 //$xml = simplexml_load_file('http://www.cbr.ru/scripts/XML_daily.asp?date_req=05/11/2017', null, LIBXML_NOCDATA );
-$xml = simplexml_load_file('http://www.floatrates.com/daily/usd.xml', null, LIBXML_NOCDATA );
+$xml = simplexml_load_file('xml.xml', null, LIBXML_NOCDATA );
 
 $valutes = [];
 $firsts = [ ['code'=>'usd', 'name'=>'United States Dollar', 'value'=>1, 'is_active'=> true] ];
@@ -37,10 +37,8 @@ foreach ($xml->item as $val) {
 		'is_active'=> false
 	];
 
-	if(in_array($code, ['rub', 'eur'])){
-			$data['is_active'] = true;
-			$firsts[] = $data;
-	}
+	if(in_array($code, ['rub', 'eur']))
+		$firsts[] = $data;
 	elseif(in_array($code, ['ils', 'azn', 'try', 'uah', 'gel', 'byn']))
 		$seconds[] = $data;
 	else
