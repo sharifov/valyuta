@@ -1,0 +1,1 @@
+<?php file_put_contents('json.json', file_get_contents('http://data.fixer.io/api/latest?access_key=8f9285ba74930681d139114a57a74b13&format=0'));

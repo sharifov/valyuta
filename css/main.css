@@ -1,8 +1,10 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Droid+Serif:400,400italic,700);
-
 body {
-  line-height: 1.65;
-  background: #dc3545;
+	line-height: 1.65;
+	background: #ebe9f9;
+	background: -moz-linear-gradient(45deg, #ebe9f9 0%, #d8d0ef 50%, #cec7ec 51%, #c1bfea 100%);
+	background: -webkit-linear-gradient(45deg, #ebe9f9 0%,#d8d0ef 50%,#cec7ec 51%,#c1bfea 100%);
+	background: linear-gradient(45deg, #ebe9f9 0%,#d8d0ef 50%,#cec7ec 51%,#c1bfea 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe9f9', endColorstr='#c1bfea',GradientType=1 );
 }
 
 
@@ -12,7 +14,7 @@ input,
 select,
 textarea {
   color: #333337;
-  font-family: "Droid Serif", serif;
+  font-family: Helvetica, serif;
 }
 
 
@@ -24,6 +26,9 @@ textarea {
   -webkit-font-smoothing: antialiased;
 }
 
+.no-visible{
+	display:none;
+}
 
 p {
   margin-bottom: 30px;
@@ -49,7 +54,6 @@ p {
 a {
   text-decoration: none;
   color: #fff;
-  border-bottom: solid 1px #fAfafa;
 }
 
 a:hover, a:active {
@@ -926,10 +930,11 @@ ol li {
   padding: 15px;
   width: 100%;
   height: 350px;
-  background-image: url(../img/default-sidebar.jpg);
+ /*  background-image: url(../img/default-sidebar.jpg); 
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  */
   transition: all 450ms;
 }
 @media (min-width: 768px) {
@@ -941,9 +946,10 @@ ol li {
 @media (min-width: 992px) {
 
   .sidebar {
-    height: 100%;
     position: fixed;
-    background-color: #f5f5f5;
+	top:210px;
+	left:0;
+	padding-top:0;
   }
 }
 @media (min-width: 1200px) {
@@ -1278,13 +1284,6 @@ html,
 body {
   font-size: 62.5%;
 }
-@media (min-width: 992px) {
-
-  html,
-  body {
-    height: 100%;
-  }
-}
 
 
 .hide {
@@ -1312,7 +1311,6 @@ a {
 a:hover, a:active, a:focus {
   text-decoration: none;
   color: #333;
-  border-bottom: solid 1px #999;
 }
 
 
@@ -1337,7 +1335,6 @@ a:hover, a:active, a:focus {
   .sidebar .currencies{
     clear: both;
     float:left;
-    margin-top:30px;
     width:100%;
     position: relative;
   }
@@ -1353,7 +1350,7 @@ a:hover, a:active, a:focus {
     border-radius: 5px;
     overflow: hidden;
     float:left;
-    width:32.12%;
+    width:30.4vw;
     margin:8px;
     font-family: "Times New Roman";
     background: #fff;
@@ -1371,7 +1368,7 @@ a:hover, a:active, a:focus {
     transition: top 0.8s 0s ease-out, left 0.8s 0s ease-in;
   }
 
-  .sidebar .currency:nth-child(3n+1){
+  .sidebar .currency.no-visible:nth-child(3n+1){
     clear:left;
   }
 
@@ -1381,11 +1378,25 @@ a:hover, a:active, a:focus {
   }
 
     .sidebar .currency:hover, .sidebar .currency.active{
-      background: #dc3545;
+      background: #d40e21;
       color:#fff;
     }
+	
+	.sidebar .currency .times{
+		display:none;
+		position: relative;
+		top: -70px;
+		font-style:normal;
+		right: -83px;
+		font-size: 2.4rem;
+		color:#fff;
+	}
+	
+	.sidebar .currency.active:not(.convert) .times{
+		display:block;
+	}
 
-    .sidebar .currency.convert{
+	.sidebar .currency.convert{
       background: #1380ce;
     }
       .sidebar .currency.convert .to{
@@ -1438,7 +1449,11 @@ a:hover, a:active, a:focus {
     float:left;
     clear:both;
     width:100%;
-    margin-top:70px;
+	padding:0 14px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-top:25px;
 }
 .cur-search input{
     -moz-border-radius:12px;
@@ -1478,3 +1493,5 @@ a:hover, a:active, a:focus {
   .convert-block img{
     float:left;
   }
+
+a.logo{float:left;margin-left:12px;margin-top:12px;}

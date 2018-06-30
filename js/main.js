@@ -35,25 +35,35 @@ getCookie = function(k) {
     return "";
 };
 
-setCookie = function(k, v, n=1) {
-    let d = new Date(), g=getCookie(k);
-    v=!g?[v]:g.push(v);
-    d.setTime(d.getTime() + (n*24*60*60*1000));
+saveCookie = function(k, v, n=1){
+	let d = new Date();
+	d.setTime(d.getTime() + (n*24*60*60*1000));
     let e = "expires="+ d.toUTCString();
     document.cookie = k + "=" + v + ";" + e + ";path=/";
+}
+
+setCookie = function(k, v) {
+    let g=getCookie(k), r = g.split(',');
+	if(!g) r = [v];
+	else r.push(v);
+	saveCookie(k, r);
 };
 
 deleteCookie = function(k, v) {
-    setCookie(k, v);
+    let g = getCookie(k).split(','), i = g.indexOf(v);
+	if( i != -1){
+		g.splice(i,1);
+		saveCookie(k, g);
+	}
 };
 
 $('.cur-search input').keyup(function(){
   _v = $(this).val().trim();
   if(_v.length){
-    $('.currency:not(.active)').hide();
-    $('.currency:not(.active) .hide:contains("'+_v.toLowerCase()+'")').parent().show();
+    $('.currency:not(.active)').addClass('no-visible');
+    $('.currency:not(.active).no-visible .hide:contains("'+_v.toLowerCase()+'")').parent().removeClass('no-visible');
   }else{
-    $('.currency:not(.active)').show();
+    $('.currency:not(.active)').removeClass('no-visible');
   }
 });
 
@@ -61,13 +71,14 @@ $('.cur-search input').keyup(function(){
 $('.sidebar .currency').click(function(e){
   if($(e.target).is('input:not(:disabled)')) return;
   _this = $(this);
+  _cur = _this.find('img + span').text().toLowerCase();
   if(!_this.hasClass('active')){
     let _effect = _this.prev().is('.convert')?false:true;
     if(_effect)
       _this.css({position:'absolute', left: _this.position().left, 'top': _this.position().top});
     setTimeout(function(){
       if(_effect) _this.addClass('fly');
-      //setCookie('sess', );
+      setCookie('sess', _cur);
       if(_effect)
         setTimeout(function(){
           _this.removeAttr('style').insertAfter('.sidebar .currency.convert').removeClass('fly').addClass('active').find('input').removeAttr('disabled');
@@ -80,6 +91,7 @@ $('.sidebar .currency').click(function(e){
       focusEnd(_cv.find('input'));
     }, 300);
   }else{
+	  deleteCookie('sess', _cur);
       _nextpos = $('.currency.active:last').position();
       _this.css({position:'absolute', left: _this.position().left, 'top': _this.position().top});
       _this.removeClass('active');
